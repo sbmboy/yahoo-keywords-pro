@@ -113,7 +113,12 @@ function getSearchTitle($keyword,$count=10){
   $content = file_get_contents($url, 0, stream_context_create($arrContextOptions));
   $titles = getInfo('<div id="web">','</ol>',$content);
   $titles = explode("</li>",$titles);
-	foreach($titles as $v)$result[]=getInfo('<h3 class="title">','</h3>',$v,true);
+	foreach($titles as $v)$result['search'][]=getInfo('<h3 class="title">','</h3>',$v,true);
+  $alsotry = getInfo('<table class="compTable','</table>',$content);
+  $alsotry = str_replace('</a>','</a>[|||]',$alsotry);
+  $alsotry = strip_tags($alsotry);
+  $alsotry = explode("[|||]",$alsotry);
+  $result['alsotry'] = $alsotry;
   return array_filter($result);
 }
 
